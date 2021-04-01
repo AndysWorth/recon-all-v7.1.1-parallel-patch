@@ -1,0 +1,48 @@
+--- quantifyThalamicNuclei.sh.bak	2020-07-23 13:26:11.000000000 -0400
++++ quantifyThalamicNuclei.sh	2021-01-26 11:01:16.000000000 -0500
+@@ -52,31 +52,31 @@
+   subjectName=`echo "${subjectName//\/}"` # strips the /
+ 
+   # File with volumes
+-  volFile="$resultsDirectory/$subjectName/mri/ThalamicNuclei.v10.$analysisID.volumes.txt"
++  volFile="$resultsDirectory/$subjectName/mri/ThalamicNuclei.v12.$analysisID.volumes.txt"
+ 
+   # If the file exists, collect data
+   if [ -f $volFile ]; then
+-    
++
+      echo "Collecting data for subject: $subjectName"
+ 
+      # if it's the first subject, gather names of structures
+      if [ $namesWritten == "no" ]; then
+         namesWritten="yes"
+-     
+-        nameString="Subject "; 
++
++        nameString="Subject ";
+         while read line; do
+           arr=(`echo ${line}`);
+-          nameString="$nameString  ${arr[0]}" 
++          nameString="$nameString  ${arr[0]}"
+         done < $volFile
+ 
+         echo $nameString > $outputfile
+ 
+      fi
+-    
+-     volumes="$subjectName"; 
++
++     volumes="$subjectName";
+      while read line; do
+        arr=(`echo ${line}`);
+-       volumes="$volumes  ${arr[1]}" 
++       volumes="$volumes  ${arr[1]}"
+      done < $volFile
+ 
+      echo $volumes >> $outputfile
+@@ -87,5 +87,3 @@
+   fi
+ 
+ done # End loop over all subjects
+-
+-
