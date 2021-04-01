@@ -1,0 +1,54 @@
+--- recon-all	2021-04-01 12:18:57.000000000 -0400
++++ ../new/recon-all	2021-04-01 12:24:02.000000000 -0400
+@@ -3471,14 +3471,8 @@
+     if ($NoRandomness) set cmd = ($cmd -seed $RngSeed)
+     set cmd = ($cmd $xopts $hemi.white.preaparc)
+     echo "\n $cmd \n"|& tee -a $LF |& tee -a $CF
+-    if($DoParallel) then
+-      set CMDF = mris_curvature_white_${hemi}.cmd
+-      echo "$cmd" > $CMDF
+-      set CMDFS = ( $CMDFS $CMDF )
+-    else
+-      if($RunIt) $fs_time $cmd |& tee -a $LF
+-      if($status) goto error_exit;
+-    endif
++    if($RunIt) $fs_time $cmd |& tee -a $LF
++    if($status) goto error_exit;
+     # This is a bit of a hack to account for the change in the name of the input white
+     # surface. There needs to be a file called ?h.white.{H,K} but mris_curvature creates
+     # ?h.white.preaparc.{H,K}. This just creates a symlink 
+@@ -3487,20 +3481,11 @@
+       set cmd2 = (ln -s $hemi.white.preaparc.$suffix $hemi.white.$suffix)
+       echo $cmd1 | tee -a $LF
+       echo $cmd2 | tee -a $LF
+-      if($DoParallel) then
+-        set CMDF = rm_curvature_white_${hemi}.$suffix.cmd
+-        echo "$cmd1" > $CMDF
+-        set CMDFS = ( $CMDFS $CMDF )
+-        set CMDF = ln_curvature_white_${hemi}.$suffix.cmd
+-        echo "$cmd2" > $CMDF
+-        set CMDFS = ( $CMDFS $CMDF )
+-      else
+-        if($RunIt) then
+-          $cmd1 | tee -a $LF
+-          if($status) goto error_exit
+-          $cmd2 | tee -a $LF
+-          if($status) goto error_exit
+-        endif
++      if($RunIt) then
++        $cmd1 | tee -a $LF
++        if($status) goto error_exit
++        $cmd2 | tee -a $LF
++        if($status) goto error_exit
+       endif
+     end
+     echo $cmd > $touchdir/$hemi.white.H.K.touch
+@@ -4214,7 +4199,7 @@
+     --save_ribbon)
+   if($LHonly) set cmd = ($cmd --lh-only )
+   if($RHonly) set cmd = ($cmd --rh-only )
+-  if($OMP_NUM_THREADS > 1) set cmd = ($cmd --parallel) # just hemis
++  # if($OMP_NUM_THREADS > 1) set cmd = ($cmd --parallel) # just hemis
+   set xopts = `fsr-getxopts mris_volmask $XOptsFile $GlobXOptsFile`;
+   set cmd = ($cmd $xopts)
+   set cmd = ($cmd $subjid)
