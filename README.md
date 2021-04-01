@@ -4,3 +4,8 @@ One error message is "Cannot find rh.white.H". See [here](https://www.mail-archi
 
 Install with: 
 `patch /usr/local/freesurfer/bin/recon-all parallel.patch`
+
+quantifyThalamicNuclei.patch is the fix for Segmentation of thalamic nuclei provided [here](http://freesurfer.net/fswiki/ThalamicNuclei).
+
+Install with:
+`patch /usr/local/freesurfer/bin/quantifyThalamicNuclei.sh quantifyThalamicNuclei.patch`
